@@ -8,6 +8,9 @@ domReady(function () {
 		const slidesPerView = slider.dataset.slidesPerView;
 		const autoPlay = slider.dataset.swiperAutoplay;
 		const loop = slider.dataset.loop;
+		const navNext = slider.dataset.navNext;
+		const navPrev = slider.dataset.navPrev;
+		const paginationEl = slider.dataset.paginationEl;
 
 		const swiper = new Swiper(sliderID, {
 			// Optional parameters
@@ -18,12 +21,13 @@ domReady(function () {
 			},
 			// Navigation arrows
 			navigation: {
-				nextEl: ".swiper-button-next",
-				prevEl: ".swiper-button-prev",
+				nextEl: navNext,
+				prevEl: navPrev,
 			},
 			// If we need pagination
 			pagination: {
-				el: ".swiper-pagination",
+				el: paginationEl,
+				clickable: true,
 			},
 		});
 	});

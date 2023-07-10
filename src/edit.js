@@ -3,6 +3,7 @@ import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, RangeControl, ToggleControl } from "@wordpress/components";
 import { useEffect, useState } from "@wordpress/element";
 import "./editor.scss";
+import { Fragment } from "react";
 import { register } from "swiper/element/bundle";
 register();
 
@@ -15,8 +16,15 @@ export default function Edit(props) {
 		autoPlayDelay,
 		loop,
 		pagination,
+		paginationEl,
 		navigation,
+		navNext,
+		navPrev,
 	} = attributes;
+
+	setAttributes({ navNext: `#slider-${blockId} .swiper-button-next` });
+	setAttributes({ navPrev: `#slider-${blockId} .swiper-button-prev` });
+	setAttributes({ paginationEl: `#slider-${blockId} .swiper-pagination` });
 
 	const changeSlidesPerView = (slidesPerView) => {
 		setAttributes({ slidesPerView });
@@ -33,7 +41,7 @@ export default function Edit(props) {
 	}, []);
 
 	return (
-		<div {...useBlockProps()}>
+		<Fragment {...useBlockProps()}>
 			<InspectorControls>
 				<PanelBody title={"Blabla"}>
 					<ToggleControl
@@ -90,6 +98,6 @@ export default function Edit(props) {
 				<swiper-slide>Slide 5</swiper-slide>
 				<swiper-slide>Slide 6</swiper-slide>
 			</swiper-container>
-		</div>
+		</Fragment>
 	);
 }

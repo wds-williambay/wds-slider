@@ -42,6 +42,12 @@
     "navigation": {
       "type": "boolean",
       "default": "true"
+    },
+    "navNext": {
+      "type": "string"
+    },
+    "navPrev": {
+      "type": "string"
     }
   }
 }

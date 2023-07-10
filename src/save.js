@@ -8,10 +8,14 @@ export default function save(props) {
 		autoPlayDelay,
 		loop,
 		pagination,
+		paginationEl,
 		navigation,
+		navNext,
+		navPrev,
 	} = attributes;
 	return (
 		<div {...useBlockProps.save()}>
+			{console.log(paginationEl)}
 			<p>{"Wds Slider – hello from the saved content!"}</p>
 			<div
 				className="swiper"
@@ -19,7 +23,9 @@ export default function save(props) {
 				data-slides-per-view={slidesPerView}
 				data-swiper-autoplay={autoPlayDelay}
 				data-loop={loop}
-				data-cssMode="true"
+				data-nav-next={navNext}
+				data-nav-prev={navPrev}
+				data-pagination-el={paginationEl}
 			>
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">Slide 1</div>
@@ -29,8 +35,8 @@ export default function save(props) {
 					<div class="swiper-slide">Slide 5</div>
 					<div class="swiper-slide">Slide 6</div>
 				</div>
-				{navigation && <div class="swiper-button-next">N</div>}
 				{navigation && <div class="swiper-button-prev">P</div>}
+				{navigation && <div class="swiper-button-next">N</div>}
 				{pagination && <div class="swiper-pagination"></div>}
 			</div>
 		</div>
