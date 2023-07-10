@@ -23,6 +23,12 @@
 			"type": "integer",
 			"default": 2
 		},
+		"images": {
+			"type": "array"
+		},
+		"imageIds": {
+			"type": "array"
+		},
 		"autoPlay": {
 			"type": "boolean",
 			"default": "true"

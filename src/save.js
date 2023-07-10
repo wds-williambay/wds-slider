@@ -4,6 +4,7 @@ export default function save(props) {
 	const { attributes } = props;
 	const {
 		blockId,
+		images,
 		slidesPerView,
 		autoPlayDelay,
 		loop,
@@ -28,12 +29,14 @@ export default function save(props) {
 				data-pagination-el={paginationEl}
 			>
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">Slide 1</div>
-					<div class="swiper-slide">Slide 2</div>
-					<div class="swiper-slide">Slide 3</div>
-					<div class="swiper-slide">Slide 4</div>
-					<div class="swiper-slide">Slide 5</div>
-					<div class="swiper-slide">Slide 6</div>
+					{images &&
+						images.map((image) => {
+							return (
+								<div class="swiper-slide">
+									<img src={image.url} />
+								</div>
+							);
+						})}
 				</div>
 				{navigation && <div class="swiper-button-prev">P</div>}
 				{navigation && <div class="swiper-button-next">N</div>}

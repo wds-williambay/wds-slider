@@ -41,6 +41,7 @@ function Edit(props) {
   } = props;
   const {
     blockId,
+    images,
     slidesPerView,
     autoPlay,
     autoPlayDelay,
@@ -51,6 +52,41 @@ function Edit(props) {
     navNext,
     navPrev
   } = attributes;
+
+  /**
+   * Swiper configuration.
+   */
+  const swiperRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    (0,swiper_element_bundle__WEBPACK_IMPORTED_MODULE_6__.register)();
+    const params = {
+      slidesPerView: slidesPerView,
+      autoPlay: autoPlayDelay,
+      loop: loop,
+      navigation: navigation,
+      pagination: {
+        el: paginationEl
+      }
+      //   breakpoints: {
+      // 	768: {
+      // 	  slidesPerView: 4,
+      // 	},
+      //   },
+    };
+
+    Object.assign(swiperRef.current, params);
+    swiperRef.current.initialize();
+  }, []);
+
+  /**
+   * Images
+   */
+  const imageIds = [];
+  if (images) {
+    images.map(image => {
+      imageIds.push(image.id);
+    });
+  }
   setAttributes({
     navNext: `#slider-${blockId} .swiper-button-next`
   });
@@ -117,13 +153,28 @@ function Edit(props) {
     onChange: () => setAttributes({
       pagination: !pagination
     })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Wds Slider – hello from the editor!", "wds-slider")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
-    "slides-per-view": slidesPerView,
-    "auto-play": autoPlayDelay,
-    loop: loop,
-    navigation: navigation,
-    pagination: pagination
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, "Slide 1"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, "Slide 2"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, "Slide 3"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, "Slide 4"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, "Slide 5"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, "Slide 6")));
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Wds Slider – hello from the editor!", "wds-slider")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+    init: "false",
+    ref: swiperRef
+  }, images ? images.map(image => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      src: image.url
+    }));
+  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaPlaceholder, {
+    multiple: true,
+    icon: "format-image",
+    onSelect: media => setAttributes({
+      images: media
+    }),
+    onFilesPreUpload: media => setAttributes({
+      images: media
+    }),
+    onSelectURL: false,
+    allowedTypes: ["image"],
+    labels: {
+      title: "Add Images"
+    }
+  })));
 }
 
 /***/ }),
@@ -179,6 +230,7 @@ function save(props) {
   } = props;
   const {
     blockId,
+    images,
     slidesPerView,
     autoPlayDelay,
     loop,
@@ -201,19 +253,13 @@ function save(props) {
     "data-pagination-el": paginationEl
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-wrapper"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-slide"
-  }, "Slide 1"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-slide"
-  }, "Slide 2"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-slide"
-  }, "Slide 3"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-slide"
-  }, "Slide 4"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-slide"
-  }, "Slide 5"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-slide"
-  }, "Slide 6")), navigation && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, images && images.map(image => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: "swiper-slide"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      src: image.url
+    }));
+  })), navigation && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-button-prev"
   }, "P"), navigation && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-button-next"
@@ -10762,7 +10808,7 @@ if (typeof window !== 'undefined') {
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerView":{"type":"integer","default":2},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerView":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"}}}');
 
 /***/ })
 
