@@ -50,7 +50,8 @@ function Edit(props) {
     paginationEl,
     navigation,
     navNext,
-    navPrev
+    navPrev,
+    sliderType
   } = attributes;
 
   /**
@@ -115,7 +116,25 @@ function Edit(props) {
   }, []);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: "Slider Type",
+    value: sliderType,
+    options: [{
+      label: "Images",
+      value: "images"
+    }, {
+      label: "Blocks",
+      value: "blocks"
+    }, {
+      label: "Posts",
+      value: "posts"
+    }],
+    onChange: sliderType => {
+      {
+        setAttributes(sliderType), console.log(sliderType);
+      }
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: "Blabla"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: "Auto Play",
@@ -153,7 +172,9 @@ function Edit(props) {
     onChange: () => setAttributes({
       pagination: !pagination
     })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Wds Slider – hello from the editor!", "wds-slider")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, images && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.Toolbar, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
+    multiple: true
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
     init: "false",
     ref: swiperRef
   }, images ? images.map(image => {
@@ -10808,7 +10829,7 @@ if (typeof window !== 'undefined') {
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerView":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerView":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"sliderType":{"type":"string","default":"images"}}}');
 
 /***/ })
 

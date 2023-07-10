@@ -4,9 +4,16 @@ import {
 	InspectorControls,
 	MediaPlaceholder,
 	MediaUpload,
+	MediaUploadCheck,
 	BlockControls,
+	Toolbar,
 } from "@wordpress/block-editor";
-import { PanelBody, RangeControl, ToggleControl } from "@wordpress/components";
+import {
+	PanelBody,
+	RangeControl,
+	ToggleControl,
+	SelectControl,
+} from "@wordpress/components";
 import { useEffect, useState, useRef } from "@wordpress/element";
 import "./editor.scss";
 import { Fragment } from "react";
@@ -27,6 +34,7 @@ export default function Edit(props) {
 		navigation,
 		navNext,
 		navPrev,
+		sliderType,
 	} = attributes;
 
 	/**
@@ -87,6 +95,23 @@ export default function Edit(props) {
 	return (
 		<Fragment {...useBlockProps()}>
 			<InspectorControls>
+				<PanelBody>
+					<SelectControl
+						label="Slider Type"
+						value={sliderType}
+						options={[
+							{ label: "Images", value: "images" },
+							{ label: "Blocks", value: "blocks" },
+							{ label: "Posts", value: "posts" },
+						]}
+						onChange={(sliderType) => {
+							{
+								setAttributes(sliderType), console.log(sliderType);
+							}
+						}}
+					/>
+				</PanelBody>
+
 				<PanelBody title={"Blabla"}>
 					<ToggleControl
 						label="Auto Play"
@@ -127,8 +152,15 @@ export default function Edit(props) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<BlockControls></BlockControls>
-			<p>{__("Wds Slider – hello from the editor!", "wds-slider")}</p>
+			<BlockControls>
+				{images && (
+					<Toolbar>
+						<MediaUploadCheck>
+							<MediaUpload multiple={true} />
+						</MediaUploadCheck>
+					</Toolbar>
+				)}
+			</BlockControls>
 			<swiper-container init="false" ref={swiperRef}>
 				{images ? (
 					images.map((image) => {
