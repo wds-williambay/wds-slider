@@ -41,7 +41,11 @@ export default function Edit(props) {
 	} = attributes;
 
 	/**
+	 *
+	 *
 	 * Images
+	 *
+	 *
 	 */
 	const imageIds = [];
 	if (images) {
@@ -51,16 +55,39 @@ export default function Edit(props) {
 	}
 
 	/**
+	 *
+	 *
 	 * QueryBlock
+	 *
+	 *
 	 */
 	const allowedBlocksPostSliderType = ["core/query"];
 	// const allowedBlocksPostSliderType = ["create-block/books-list"];
 	// TODO Create Block variations on Query Block. Create own pattern with Swiper classes/elements applied.
 
+	/**
+	 *
+	 *
+	 * Setting immutable attributes.
+	 *
+	 *
+	 */
+	useEffect(() => {
+		if (!blockId) {
+			setAttributes({ blockId: clientId });
+		}
+	}, []);
 	setAttributes({ navNext: `#slider-${blockId} .swiper-button-next` });
 	setAttributes({ navPrev: `#slider-${blockId} .swiper-button-prev` });
 	setAttributes({ paginationEl: `#slider-${blockId} .swiper-pagination` });
 
+	/**
+	 *
+	 *
+	 * Functions to update attributes.
+	 *
+	 *
+	 */
 	const changeSlidesPerViewMobile = (slidesPerViewMobile) => {
 		setAttributes({ slidesPerViewMobile });
 	};
@@ -73,14 +100,15 @@ export default function Edit(props) {
 		setAttributes({ autoPlayDelay });
 	};
 
-	useEffect(() => {
-		if (!blockId) {
-			setAttributes({ blockId: clientId });
-		}
-	}, []);
-
+	/**
+	 *
+	 *
+	 * Editor markup.
+	 *
+	 *
+	 */
 	return (
-		<Fragment {...useBlockProps()}>
+		<div {...useBlockProps()}>
 			<InspectorControls>
 				<PanelBody>
 					<SelectControl
@@ -151,14 +179,9 @@ export default function Edit(props) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<BlockControls>
-				<Toolbar>
-					<MediaUploadCheck>
-						<MediaUpload multiple={true} />
-					</MediaUploadCheck>
-				</Toolbar>
-			</BlockControls>
+			<BlockControls></BlockControls>
 			<swiper-container
+				class="swiper-container"
 				slides-per-view={slidesPerViewMobile}
 				auto-play={autoPlayDelay}
 				loop={loop}
@@ -188,6 +211,6 @@ export default function Edit(props) {
 				)}
 				{/* <InnerBlocks allowedBlocks={allowedBlocksPostSliderType} /> */}
 			</swiper-container>
-		</Fragment>
+		</div>
 	);
 }

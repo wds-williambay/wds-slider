@@ -56,7 +56,11 @@ function Edit(props) {
   } = attributes;
 
   /**
+   *
+   *
    * Images
+   *
+   *
    */
   const imageIds = [];
   if (images) {
@@ -66,12 +70,30 @@ function Edit(props) {
   }
 
   /**
+   *
+   *
    * QueryBlock
+   *
+   *
    */
   const allowedBlocksPostSliderType = ["core/query"];
   // const allowedBlocksPostSliderType = ["create-block/books-list"];
   // TODO Create Block variations on Query Block. Create own pattern with Swiper classes/elements applied.
 
+  /**
+   *
+   *
+   * Setting immutable attributes.
+   *
+   *
+   */
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!blockId) {
+      setAttributes({
+        blockId: clientId
+      });
+    }
+  }, []);
   setAttributes({
     navNext: `#slider-${blockId} .swiper-button-next`
   });
@@ -81,6 +103,14 @@ function Edit(props) {
   setAttributes({
     paginationEl: `#slider-${blockId} .swiper-pagination`
   });
+
+  /**
+   *
+   *
+   * Functions to update attributes.
+   *
+   *
+   */
   const changeSlidesPerViewMobile = slidesPerViewMobile => {
     setAttributes({
       slidesPerViewMobile
@@ -96,14 +126,15 @@ function Edit(props) {
       autoPlayDelay
     });
   };
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (!blockId) {
-      setAttributes({
-        blockId: clientId
-      });
-    }
-  }, []);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+
+  /**
+   *
+   *
+   * Editor markup.
+   *
+   *
+   */
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
     label: "Slider Type",
@@ -168,9 +199,8 @@ function Edit(props) {
     onChange: () => setAttributes({
       pagination: !pagination
     })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.Toolbar, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
-    multiple: true
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+    class: "swiper-container",
     "slides-per-view": slidesPerViewMobile,
     "auto-play": autoPlayDelay,
     loop: loop,
@@ -265,7 +295,7 @@ function save(props) {
   } = attributes;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
-  }, console.log(paginationEl), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Wds Slider – hello from the saved content!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Wds Slider – hello from the saved content!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "swiper",
     id: `slider-${blockId}`,
     "data-slides-per-view": slidesPerViewMobile,

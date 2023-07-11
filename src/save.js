@@ -17,7 +17,6 @@ export default function save(props) {
 	} = attributes;
 	return (
 		<div {...useBlockProps.save()}>
-			{console.log(paginationEl)}
 			<p>{"Wds Slider – hello from the saved content!"}</p>
 			<div
 				className="swiper"
