@@ -19,7 +19,11 @@
     "blockId": {
       "type": "string"
     },
-    "slidesPerView": {
+    "slidesPerViewMobile": {
+      "type": "integer",
+      "default": 1
+    },
+    "slidesPerViewTablet": {
       "type": "integer",
       "default": 2
     },

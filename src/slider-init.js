@@ -5,7 +5,8 @@ domReady(function () {
 
 	sliders.map((slider) => {
 		const sliderID = `#${slider.id}`;
-		const slidesPerView = slider.dataset.slidesPerView;
+		const slidesPerViewMobile = slider.dataset.slidesPerView;
+		const slidesPerViewTablet = slider.dataset.slidesPerViewTablet;
 		const autoPlay = slider.dataset.swiperAutoplay;
 		const loop = slider.dataset.loop;
 		const navNext = slider.dataset.navNext;
@@ -14,7 +15,12 @@ domReady(function () {
 
 		const swiper = new Swiper(sliderID, {
 			// Optional parameters
-			slidesPerView: slidesPerView,
+			slidesPerView: slidesPerViewMobile,
+			breakpoints: {
+				1024: {
+					slidesPerView: slidesPerViewTablet,
+				},
+			},
 			loop: loop,
 			autoplay: {
 				delay: autoPlay,
@@ -30,5 +36,6 @@ domReady(function () {
 				clickable: true,
 			},
 		});
+		console.log(swiper);
 	});
 });

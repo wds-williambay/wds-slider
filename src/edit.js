@@ -7,6 +7,7 @@ import {
 	MediaUploadCheck,
 	BlockControls,
 	Toolbar,
+	InnerBlocks,
 } from "@wordpress/block-editor";
 import {
 	PanelBody,
@@ -14,6 +15,7 @@ import {
 	ToggleControl,
 	SelectControl,
 } from "@wordpress/components";
+
 import { useEffect, useState, useRef } from "@wordpress/element";
 import "./editor.scss";
 import { Fragment } from "react";
@@ -25,7 +27,8 @@ export default function Edit(props) {
 	const {
 		blockId,
 		images,
-		slidesPerView,
+		slidesPerViewMobile,
+		slidesPerViewTablet,
 		autoPlay,
 		autoPlayDelay,
 		loop,
@@ -38,33 +41,6 @@ export default function Edit(props) {
 	} = attributes;
 
 	/**
-	 * Swiper configuration.
-	 */
-	const swiperRef = useRef(null);
-
-	useEffect(() => {
-		register();
-
-		const params = {
-			slidesPerView: slidesPerView,
-			autoPlay: autoPlayDelay,
-			loop: loop,
-			navigation: navigation,
-			pagination: {
-				el: paginationEl,
-			},
-			//   breakpoints: {
-			// 	768: {
-			// 	  slidesPerView: 4,
-			// 	},
-			//   },
-		};
-
-		Object.assign(swiperRef.current, params);
-		swiperRef.current.initialize();
-	}, []);
-
-	/**
 	 * Images
 	 */
 	const imageIds = [];
@@ -74,12 +50,23 @@ export default function Edit(props) {
 		});
 	}
 
+	/**
+	 * QueryBlock
+	 */
+	const allowedBlocksPostSliderType = ["core/query"];
+	// const allowedBlocksPostSliderType = ["create-block/books-list"];
+	// TODO Create Block variations on Query Block. Create own pattern with Swiper classes/elements applied.
+
 	setAttributes({ navNext: `#slider-${blockId} .swiper-button-next` });
 	setAttributes({ navPrev: `#slider-${blockId} .swiper-button-prev` });
 	setAttributes({ paginationEl: `#slider-${blockId} .swiper-pagination` });
 
-	const changeSlidesPerView = (slidesPerView) => {
-		setAttributes({ slidesPerView });
+	const changeSlidesPerViewMobile = (slidesPerViewMobile) => {
+		setAttributes({ slidesPerViewMobile });
+	};
+
+	const changeSlidesPerViewTablet = (slidesPerViewTablet) => {
+		setAttributes({ slidesPerViewTablet });
 	};
 
 	const changeAutoPlayDelay = (autoPlayDelay) => {
@@ -107,6 +94,7 @@ export default function Edit(props) {
 						onChange={(sliderType) => {
 							{
 								setAttributes(sliderType), console.log(sliderType);
+								// TODO add conditionals for the different slider types.
 							}
 						}}
 					/>
@@ -129,9 +117,20 @@ export default function Edit(props) {
 					)}
 
 					<RangeControl
-						label="Numbers"
-						value={slidesPerView}
-						onChange={(slidesPerView) => changeSlidesPerView(slidesPerView)}
+						label="Mobile Numbers"
+						value={slidesPerViewMobile}
+						onChange={(slidesPerViewMobile) =>
+							changeSlidesPerViewMobile(slidesPerViewMobile)
+						}
+						min={1}
+						max={6}
+					/>
+					<RangeControl
+						label="TabletNumbers"
+						value={slidesPerViewTablet}
+						onChange={(slidesPerViewTablet) =>
+							changeSlidesPerViewTablet(slidesPerViewTablet)
+						}
 						min={1}
 						max={6}
 					/>
@@ -153,15 +152,21 @@ export default function Edit(props) {
 				</PanelBody>
 			</InspectorControls>
 			<BlockControls>
-				{images && (
-					<Toolbar>
-						<MediaUploadCheck>
-							<MediaUpload multiple={true} />
-						</MediaUploadCheck>
-					</Toolbar>
-				)}
+				<Toolbar>
+					<MediaUploadCheck>
+						<MediaUpload multiple={true} />
+					</MediaUploadCheck>
+				</Toolbar>
 			</BlockControls>
-			<swiper-container init="false" ref={swiperRef}>
+			<swiper-container
+				slides-per-view={slidesPerViewMobile}
+				auto-play={autoPlayDelay}
+				loop={loop}
+				navigation={navigation}
+				pagination={pagination}
+				pagination-el={paginationEl}
+				breakpoints-1024-slides-per-view={slidesPerViewTablet}
+			>
 				{images ? (
 					images.map((image) => {
 						return (
@@ -181,6 +186,7 @@ export default function Edit(props) {
 						labels={{ title: "Add Images" }}
 					/>
 				)}
+				{/* <InnerBlocks allowedBlocks={allowedBlocksPostSliderType} /> */}
 			</swiper-container>
 		</Fragment>
 	);

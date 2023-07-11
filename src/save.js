@@ -1,11 +1,12 @@
-import { useBlockProps } from "@wordpress/block-editor";
+import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 
 export default function save(props) {
 	const { attributes } = props;
 	const {
 		blockId,
 		images,
-		slidesPerView,
+		slidesPerViewMobile,
+		slidesPerViewTablet,
 		autoPlayDelay,
 		loop,
 		pagination,
@@ -21,13 +22,16 @@ export default function save(props) {
 			<div
 				className="swiper"
 				id={`slider-${blockId}`}
-				data-slides-per-view={slidesPerView}
+				data-slides-per-view={slidesPerViewMobile}
+				data-slides-per-view-tablet={slidesPerViewTablet}
 				data-swiper-autoplay={autoPlayDelay}
 				data-loop={loop}
 				data-nav-next={navNext}
 				data-nav-prev={navPrev}
+				data-pagination={pagination}
 				data-pagination-el={paginationEl}
 			>
+				{/* <InnerBlocks.Content /> */}
 				<div class="swiper-wrapper">
 					{images &&
 						images.map((image) => {

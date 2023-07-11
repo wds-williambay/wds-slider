@@ -42,7 +42,8 @@ function Edit(props) {
   const {
     blockId,
     images,
-    slidesPerView,
+    slidesPerViewMobile,
+    slidesPerViewTablet,
     autoPlay,
     autoPlayDelay,
     loop,
@@ -55,31 +56,6 @@ function Edit(props) {
   } = attributes;
 
   /**
-   * Swiper configuration.
-   */
-  const swiperRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    (0,swiper_element_bundle__WEBPACK_IMPORTED_MODULE_6__.register)();
-    const params = {
-      slidesPerView: slidesPerView,
-      autoPlay: autoPlayDelay,
-      loop: loop,
-      navigation: navigation,
-      pagination: {
-        el: paginationEl
-      }
-      //   breakpoints: {
-      // 	768: {
-      // 	  slidesPerView: 4,
-      // 	},
-      //   },
-    };
-
-    Object.assign(swiperRef.current, params);
-    swiperRef.current.initialize();
-  }, []);
-
-  /**
    * Images
    */
   const imageIds = [];
@@ -88,6 +64,14 @@ function Edit(props) {
       imageIds.push(image.id);
     });
   }
+
+  /**
+   * QueryBlock
+   */
+  const allowedBlocksPostSliderType = ["core/query"];
+  // const allowedBlocksPostSliderType = ["create-block/books-list"];
+  // TODO Create Block variations on Query Block. Create own pattern with Swiper classes/elements applied.
+
   setAttributes({
     navNext: `#slider-${blockId} .swiper-button-next`
   });
@@ -97,9 +81,14 @@ function Edit(props) {
   setAttributes({
     paginationEl: `#slider-${blockId} .swiper-pagination`
   });
-  const changeSlidesPerView = slidesPerView => {
+  const changeSlidesPerViewMobile = slidesPerViewMobile => {
     setAttributes({
-      slidesPerView
+      slidesPerViewMobile
+    });
+  };
+  const changeSlidesPerViewTablet = slidesPerViewTablet => {
+    setAttributes({
+      slidesPerViewTablet
     });
   };
   const changeAutoPlayDelay = autoPlayDelay => {
@@ -132,6 +121,7 @@ function Edit(props) {
     onChange: sliderType => {
       {
         setAttributes(sliderType), console.log(sliderType);
+        // TODO add conditionals for the different slider types.
       }
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -149,9 +139,15 @@ function Edit(props) {
     min: 1000,
     max: 5000
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Numbers",
-    value: slidesPerView,
-    onChange: slidesPerView => changeSlidesPerView(slidesPerView),
+    label: "Mobile Numbers",
+    value: slidesPerViewMobile,
+    onChange: slidesPerViewMobile => changeSlidesPerViewMobile(slidesPerViewMobile),
+    min: 1,
+    max: 6
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    label: "TabletNumbers",
+    value: slidesPerViewTablet,
+    onChange: slidesPerViewTablet => changeSlidesPerViewTablet(slidesPerViewTablet),
     min: 1,
     max: 6
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
@@ -172,11 +168,16 @@ function Edit(props) {
     onChange: () => setAttributes({
       pagination: !pagination
     })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, images && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.Toolbar, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.Toolbar, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
     multiple: true
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
-    init: "false",
-    ref: swiperRef
+    "slides-per-view": slidesPerViewMobile,
+    "auto-play": autoPlayDelay,
+    loop: loop,
+    navigation: navigation,
+    pagination: pagination,
+    "pagination-el": paginationEl,
+    "breakpoints-1024-slides-per-view": slidesPerViewTablet
   }, images ? images.map(image => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: image.url
@@ -252,7 +253,8 @@ function save(props) {
   const {
     blockId,
     images,
-    slidesPerView,
+    slidesPerViewMobile,
+    slidesPerViewTablet,
     autoPlayDelay,
     loop,
     pagination,
@@ -266,11 +268,13 @@ function save(props) {
   }, console.log(paginationEl), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Wds Slider – hello from the saved content!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "swiper",
     id: `slider-${blockId}`,
-    "data-slides-per-view": slidesPerView,
+    "data-slides-per-view": slidesPerViewMobile,
+    "data-slides-per-view-tablet": slidesPerViewTablet,
     "data-swiper-autoplay": autoPlayDelay,
     "data-loop": loop,
     "data-nav-next": navNext,
     "data-nav-prev": navPrev,
+    "data-pagination": pagination,
     "data-pagination-el": paginationEl
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-wrapper"
@@ -10829,7 +10833,7 @@ if (typeof window !== 'undefined') {
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerView":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"sliderType":{"type":"string","default":"images"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"sliderType":{"type":"string","default":"images"}}}');
 
 /***/ })
 

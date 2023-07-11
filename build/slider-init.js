@@ -94,7 +94,8 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   const sliders = Array.from(document.querySelectorAll(".swiper"));
   sliders.map(slider => {
     const sliderID = `#${slider.id}`;
-    const slidesPerView = slider.dataset.slidesPerView;
+    const slidesPerViewMobile = slider.dataset.slidesPerView;
+    const slidesPerViewTablet = slider.dataset.slidesPerViewTablet;
     const autoPlay = slider.dataset.swiperAutoplay;
     const loop = slider.dataset.loop;
     const navNext = slider.dataset.navNext;
@@ -102,7 +103,12 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     const paginationEl = slider.dataset.paginationEl;
     const swiper = new Swiper(sliderID, {
       // Optional parameters
-      slidesPerView: slidesPerView,
+      slidesPerView: slidesPerViewMobile,
+      breakpoints: {
+        1024: {
+          slidesPerView: slidesPerViewTablet
+        }
+      },
       loop: loop,
       autoplay: {
         delay: autoPlay
@@ -118,6 +124,7 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
         clickable: true
       }
     });
+    console.log(swiper);
   });
 });
 })();
