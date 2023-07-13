@@ -5,10 +5,12 @@ export default function save(props) {
 	const {
 		blockId,
 		images,
+		slideshowOrCarousel,
 		slidesPerViewMobile,
 		slidesPerViewTablet,
-		autoPlayDelay,
 		loop,
+		autoPlayDelay,
+		transitionSpeed,
 		pagination,
 		paginationEl,
 		navigation,
@@ -24,7 +26,8 @@ export default function save(props) {
 				id={`slider-${blockId}`}
 				data-slides-per-view={slidesPerViewMobile}
 				data-slides-per-view-tablet={slidesPerViewTablet}
-				data-swiper-autoplay={autoPlayDelay}
+				data-swiper-autoplay={autoPlayDelay * 1000}
+				data-transition-speed={transitionSpeed * 1000}
 				data-loop={loop}
 				data-nav-next={navNext}
 				data-nav-prev={navPrev}

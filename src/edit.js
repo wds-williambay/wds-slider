@@ -31,9 +31,10 @@ export default function Edit(props) {
 		slideshowOrCarousel,
 		slidesPerViewMobile,
 		slidesPerViewTablet,
+		loop,
 		autoPlay,
 		autoPlayDelay,
-		loop,
+		transitionSpeed,
 		pagination,
 		paginationEl,
 		navigation,
@@ -103,8 +104,16 @@ export default function Edit(props) {
 		setAttributes({ paginationStyle });
 	};
 
+	const changeSlideshowOrCarousel = (slideshowOrCarousel) => {
+		setAttributes(slideshowOrCarousel);
+	};
+
 	const changeAutoPlayDelay = (autoPlayDelay) => {
 		setAttributes({ autoPlayDelay });
+	};
+
+	const changeTransitionSpeed = (transitionSpeed) => {
+		setAttributes({ transitionSpeed });
 	};
 
 	/**
@@ -127,7 +136,7 @@ export default function Edit(props) {
 							{ label: "Carousel", value: "carousel" },
 						]}
 						onChange={(slideshowOrCarousel) =>
-							setAttributes(slideshowOrCarousel)
+							changeSlideshowOrCarousel(slideshowOrCarousel)
 						}
 					/>
 					<SelectControl
@@ -144,7 +153,12 @@ export default function Edit(props) {
 					/>
 				</PanelBody>
 
-				<PanelBody title={"Blabla"}>
+				<PanelBody title={"Timing Controls"}>
+					<ToggleControl
+						label="Loop Continuously"
+						checked={loop}
+						onChange={() => setAttributes({ loop: !loop })}
+					/>
 					<ToggleControl
 						label="Auto Play"
 						help="Disabled in Admin view."
@@ -153,77 +167,91 @@ export default function Edit(props) {
 					/>
 					{autoPlay && (
 						<RangeControl
-							label="AutoPlay Time"
+							label="Slide Speed"
+							help="Time slides are displayed (In milliseconds)."
 							value={autoPlayDelay}
 							onChange={(autoPlayDelay) => changeAutoPlayDelay(autoPlayDelay)}
-							min={1000}
-							max={5000}
+							min={1.0}
+							max={5.0}
+							step={0.1}
+						/>
+					)}
+					{autoPlay && (
+						<RangeControl
+							label="Slide Transition Speed"
+							help="Time it takes to transition from one slide to the next (In milliseconds)."
+							value={transitionSpeed}
+							onChange={(transitionSpeed) =>
+								changeTransitionSpeed(transitionSpeed)
+							}
+							min={0.1}
+							max={2.0}
+							step={0.1}
 						/>
 					)}
 
-					<RangeControl
-						label="Mobile Numbers"
-						value={slidesPerViewMobile}
-						onChange={(slidesPerViewMobile) =>
-							changeSlidesPerViewMobile(slidesPerViewMobile)
-						}
-						min={1}
-						max={6}
-					/>
-					<RangeControl
-						label="TabletNumbers"
-						value={slidesPerViewTablet}
-						onChange={(slidesPerViewTablet) =>
-							changeSlidesPerViewTablet(slidesPerViewTablet)
-						}
-						min={1}
-						max={6}
-					/>
-					<ToggleControl
-						label="Loop Slideshow"
-						checked={loop}
-						onChange={() => setAttributes({ loop: !loop })}
-					/>
-					<ToggleControl
-						label="Show Navigation Arrows"
-						checked={navigation}
-						onChange={() => setAttributes({ navigation: !navigation })}
-					/>
-					<ToggleControl
-						label="Show Pagination"
-						checked={pagination}
-						onChange={() => setAttributes({ pagination: !pagination })}
-					/>
-					<SelectControl
-						label="Pagination Style"
-						value={paginationStyle}
-						options={[
-							{ label: "Bullets", value: "bullets" },
-							{ label: "Numbers", value: "numbers" },
-							{ label: "Thumbnails", value: "thumbnails" },
-						]}
-						onChange={(paginationStyle) =>
-							changePaginationStyle(paginationStyle)
-						}
-					/>
-					{"thumbnails" === paginationStyle && (
-						<SelectControl
-							label="Thumbnail Format"
-							value={thumbsFormat}
-							options={[
-								{ label: "Square", value: "square-thumbs" },
-								{ label: "Rectangle", value: "rect-thumbs" },
-							]}
-							onChange={(thumbsFormat) => setAttributes(thumbsFormat)}
+					<PanelBody title={"Needs A Home"}>
+						<RangeControl
+							label="Mobile Numbers"
+							value={slidesPerViewMobile}
+							onChange={(slidesPerViewMobile) =>
+								changeSlidesPerViewMobile(slidesPerViewMobile)
+							}
+							min={1}
+							max={6}
 						/>
-					)}
+						<RangeControl
+							label="TabletNumbers"
+							value={slidesPerViewTablet}
+							onChange={(slidesPerViewTablet) =>
+								changeSlidesPerViewTablet(slidesPerViewTablet)
+							}
+							min={1}
+							max={6}
+						/>
+						<ToggleControl
+							label="Show Navigation Arrows"
+							checked={navigation}
+							onChange={() => setAttributes({ navigation: !navigation })}
+						/>
+						<ToggleControl
+							label="Show Pagination"
+							checked={pagination}
+							onChange={() => setAttributes({ pagination: !pagination })}
+						/>
+						<SelectControl
+							label="Pagination Style"
+							value={paginationStyle}
+							options={[
+								{ label: "Bullets", value: "bullets" },
+								{ label: "Numbers", value: "numbers" },
+								{ label: "Thumbnails", value: "thumbnails" },
+							]}
+							onChange={(paginationStyle) =>
+								changePaginationStyle(paginationStyle)
+							}
+						/>
+						{"thumbnails" === paginationStyle && (
+							<SelectControl
+								label="Thumbnail Format"
+								value={thumbsFormat}
+								options={[
+									{ label: "Square", value: "square-thumbs" },
+									{ label: "Rectangle", value: "rect-thumbs" },
+								]}
+								onChange={(thumbsFormat) => setAttributes(thumbsFormat)}
+							/>
+						)}
+					</PanelBody>
 				</PanelBody>
 			</InspectorControls>
 			<BlockControls></BlockControls>
 			<swiper-container
 				class="swiper-container"
 				slides-per-view={slidesPerViewMobile}
-				auto-play={autoPlayDelay}
+				auto-play={autoPlayDelay * 1000}
+				speed={transitionSpeed * 1000}
+				effect="fade"
 				loop={loop}
 				navigation={navigation}
 				pagination={pagination}
@@ -234,7 +262,6 @@ export default function Edit(props) {
 				thumbs-swiper=".thumbs-nav"
 				free-mode="true"
 				watch-slides-progress="true"
-				effect="fade"
 			>
 				{images ? (
 					images.map((image) => {

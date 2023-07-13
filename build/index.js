@@ -46,9 +46,10 @@ function Edit(props) {
     slideshowOrCarousel,
     slidesPerViewMobile,
     slidesPerViewTablet,
+    loop,
     autoPlay,
     autoPlayDelay,
-    loop,
+    transitionSpeed,
     pagination,
     paginationEl,
     navigation,
@@ -129,9 +130,17 @@ function Edit(props) {
       paginationStyle
     });
   };
+  const changeSlideshowOrCarousel = slideshowOrCarousel => {
+    setAttributes(slideshowOrCarousel);
+  };
   const changeAutoPlayDelay = autoPlayDelay => {
     setAttributes({
       autoPlayDelay
+    });
+  };
+  const changeTransitionSpeed = transitionSpeed => {
+    setAttributes({
+      transitionSpeed
     });
   };
 
@@ -155,7 +164,7 @@ function Edit(props) {
       label: "Carousel",
       value: "carousel"
     }],
-    onChange: slideshowOrCarousel => setAttributes(slideshowOrCarousel)
+    onChange: slideshowOrCarousel => changeSlideshowOrCarousel(slideshowOrCarousel)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
     label: "Slide Type",
     value: sliderType,
@@ -174,8 +183,14 @@ function Edit(props) {
     ,
     onChange: sliderType => setAttributes(sliderType)
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Blabla"
+    title: "Timing Controls"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: "Loop Continuously",
+    checked: loop,
+    onChange: () => setAttributes({
+      loop: !loop
+    })
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: "Auto Play",
     help: "Disabled in Admin view.",
     checked: autoPlay,
@@ -183,12 +198,24 @@ function Edit(props) {
       autoPlay: !autoPlay
     })
   }), autoPlay && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "AutoPlay Time",
+    label: "Slide Speed",
+    help: "Time slides are displayed (In milliseconds).",
     value: autoPlayDelay,
     onChange: autoPlayDelay => changeAutoPlayDelay(autoPlayDelay),
-    min: 1000,
-    max: 5000
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    min: 1.0,
+    max: 5.0,
+    step: 0.1
+  }), autoPlay && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    label: "Slide Transition Speed",
+    help: "Time it takes to transition from one slide to the next (In milliseconds).",
+    value: transitionSpeed,
+    onChange: transitionSpeed => changeTransitionSpeed(transitionSpeed),
+    min: 0.1,
+    max: 2.0,
+    step: 0.1
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "Needs A Home"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
     label: "Mobile Numbers",
     value: slidesPerViewMobile,
     onChange: slidesPerViewMobile => changeSlidesPerViewMobile(slidesPerViewMobile),
@@ -200,12 +227,6 @@ function Edit(props) {
     onChange: slidesPerViewTablet => changeSlidesPerViewTablet(slidesPerViewTablet),
     min: 1,
     max: 6
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Loop Slideshow",
-    checked: loop,
-    onChange: () => setAttributes({
-      loop: !loop
-    })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: "Show Navigation Arrows",
     checked: navigation,
@@ -243,10 +264,12 @@ function Edit(props) {
       value: "rect-thumbs"
     }],
     onChange: thumbsFormat => setAttributes(thumbsFormat)
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
     class: "swiper-container",
     "slides-per-view": slidesPerViewMobile,
-    "auto-play": autoPlayDelay,
+    "auto-play": autoPlayDelay * 1000,
+    speed: transitionSpeed * 1000,
+    effect: "fade",
     loop: loop,
     navigation: navigation,
     pagination: pagination,
@@ -257,8 +280,7 @@ function Edit(props) {
     ,
     "thumbs-swiper": ".thumbs-nav",
     "free-mode": "true",
-    "watch-slides-progress": "true",
-    effect: "fade"
+    "watch-slides-progress": "true"
   }, images ? images.map(image => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: image.url
@@ -341,10 +363,12 @@ function save(props) {
   const {
     blockId,
     images,
+    slideshowOrCarousel,
     slidesPerViewMobile,
     slidesPerViewTablet,
-    autoPlayDelay,
     loop,
+    autoPlayDelay,
+    transitionSpeed,
     pagination,
     paginationEl,
     navigation,
@@ -360,7 +384,8 @@ function save(props) {
     id: `slider-${blockId}`,
     "data-slides-per-view": slidesPerViewMobile,
     "data-slides-per-view-tablet": slidesPerViewTablet,
-    "data-swiper-autoplay": autoPlayDelay,
+    "data-swiper-autoplay": autoPlayDelay * 1000,
+    "data-transition-speed": transitionSpeed * 1000,
     "data-loop": loop,
     "data-nav-next": navNext,
     "data-nav-prev": navPrev,
@@ -10938,7 +10963,7 @@ if (typeof window !== 'undefined') {
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false,"color":{"text":true,"background":true,"link":true}},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"sliderType":{"type":"string","default":"images"},"slideshowOrCarousel":{"type":"string","default":"carousel"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":1},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"paginationStyle":{"type":"string","default":"bullets"},"thumbsFormat":{"type":"string","default":"square-thumbs"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false,"color":{"text":true,"background":true,"link":true}},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"sliderType":{"type":"string","default":"images"},"slideshowOrCarousel":{"type":"string","default":"carousel"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":1},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"number","default":"3"},"transitionSpeed":{"type":"number","default":".3"},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"paginationStyle":{"type":"string","default":"bullets"},"thumbsFormat":{"type":"string","default":"square-thumbs"}}}');
 
 /***/ })
 

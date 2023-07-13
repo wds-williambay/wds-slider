@@ -51,8 +51,12 @@
 			"default": "true"
 		},
 		"autoPlayDelay": {
-			"type": "integer",
-			"default": 3000
+			"type": "number",
+			"default": "3"
+		},
+		"transitionSpeed": {
+			"type": "number",
+			"default": ".3"
 		},
 		"loop": {
 			"type": "boolean",

@@ -10,8 +10,9 @@ domReady(function () {
 		const sliderID = `#${slider.id}`;
 		const slidesPerViewMobile = slider.dataset.slidesPerView;
 		const slidesPerViewTablet = slider.dataset.slidesPerViewTablet;
-		const autoPlay = slider.dataset.swiperAutoplay;
 		const loop = slider.dataset.loop;
+		const autoPlay = slider.dataset.swiperAutoplay;
+		const transitionSpeed = slider.dataset.transitionSpeed;
 		const navNext = slider.dataset.navNext;
 		const navPrev = slider.dataset.navPrev;
 		const paginationEl = slider.dataset.paginationEl;
@@ -31,6 +32,7 @@ domReady(function () {
 			autoplay: {
 				delay: autoPlay,
 			},
+			speed: transitionSpeed,
 			// Navigation arrows
 			navigation: {
 				nextEl: navNext,

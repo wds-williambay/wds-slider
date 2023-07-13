@@ -97,8 +97,9 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     const sliderID = `#${slider.id}`;
     const slidesPerViewMobile = slider.dataset.slidesPerView;
     const slidesPerViewTablet = slider.dataset.slidesPerViewTablet;
-    const autoPlay = slider.dataset.swiperAutoplay;
     const loop = slider.dataset.loop;
+    const autoPlay = slider.dataset.swiperAutoplay;
+    const transitionSpeed = slider.dataset.transitionSpeed;
     const navNext = slider.dataset.navNext;
     const navPrev = slider.dataset.navPrev;
     const paginationEl = slider.dataset.paginationEl;
@@ -118,6 +119,7 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
       autoplay: {
         delay: autoPlay
       },
+      speed: transitionSpeed,
       // Navigation arrows
       navigation: {
         nextEl: navNext,
