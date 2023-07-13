@@ -102,6 +102,7 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     const navNext = slider.dataset.navNext;
     const navPrev = slider.dataset.navPrev;
     const paginationEl = slider.dataset.paginationEl;
+    const effect = slider.dataset.effect;
     // const paginationStyle = slider.dataset.paginationStyle;
 
     const swiper = new Swiper(sliderID, {
@@ -112,6 +113,7 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
           slidesPerView: slidesPerViewTablet
         }
       },
+      effect: effect,
       loop: loop,
       autoplay: {
         delay: autoPlay

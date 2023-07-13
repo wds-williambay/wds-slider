@@ -27,6 +27,8 @@ export default function Edit(props) {
 	const {
 		blockId,
 		images,
+		sliderType,
+		slideshowOrCarousel,
 		slidesPerViewMobile,
 		slidesPerViewTablet,
 		autoPlay,
@@ -37,7 +39,6 @@ export default function Edit(props) {
 		navigation,
 		navNext,
 		navPrev,
-		sliderType,
 		paginationStyle,
 		thumbsFormat,
 	} = attributes;
@@ -98,12 +99,12 @@ export default function Edit(props) {
 		setAttributes({ slidesPerViewTablet });
 	};
 
-	const changeAutoPlayDelay = (autoPlayDelay) => {
-		setAttributes({ autoPlayDelay });
-	};
-
 	const changePaginationStyle = (paginationStyle) => {
 		setAttributes({ paginationStyle });
+	};
+
+	const changeAutoPlayDelay = (autoPlayDelay) => {
+		setAttributes({ autoPlayDelay });
 	};
 
 	/**
@@ -118,25 +119,35 @@ export default function Edit(props) {
 			<InspectorControls>
 				<PanelBody>
 					<SelectControl
-						label="Slider Type"
+						label="Slideshow/Carousel"
+						value={slideshowOrCarousel}
+						help="Select Slideshow for single photos or slides. Select Carousel for multiple slides per view."
+						options={[
+							{ label: "Slideshow", value: "slideshow" },
+							{ label: "Carousel", value: "carousel" },
+						]}
+						onChange={(slideshowOrCarousel) =>
+							setAttributes(slideshowOrCarousel)
+						}
+					/>
+					<SelectControl
+						label="Slide Type"
 						value={sliderType}
+						help="What do you want to display?"
 						options={[
 							{ label: "Images", value: "images" },
 							{ label: "Blocks", value: "blocks" },
 							{ label: "Posts", value: "posts" },
 						]}
-						onChange={(sliderType) => {
-							{
-								setAttributes(sliderType);
-								// TODO add conditionals for the different slider types.
-							}
-						}}
+						// TODO add conditionals for the different slider types.
+						onChange={(sliderType) => setAttributes(sliderType)}
 					/>
 				</PanelBody>
 
 				<PanelBody title={"Blabla"}>
 					<ToggleControl
 						label="Auto Play"
+						help="Disabled in Admin view."
 						checked={autoPlay}
 						onChange={() => setAttributes({ autoPlay: !autoPlay })}
 					/>
@@ -203,11 +214,7 @@ export default function Edit(props) {
 								{ label: "Square", value: "square-thumbs" },
 								{ label: "Rectangle", value: "rect-thumbs" },
 							]}
-							onChange={(thumbsFormat) => {
-								{
-									setAttributes(thumbsFormat);
-								}
-							}}
+							onChange={(thumbsFormat) => setAttributes(thumbsFormat)}
 						/>
 					)}
 				</PanelBody>
@@ -227,6 +234,7 @@ export default function Edit(props) {
 				thumbs-swiper=".thumbs-nav"
 				free-mode="true"
 				watch-slides-progress="true"
+				effect="fade"
 			>
 				{images ? (
 					images.map((image) => {

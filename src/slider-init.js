@@ -15,6 +15,7 @@ domReady(function () {
 		const navNext = slider.dataset.navNext;
 		const navPrev = slider.dataset.navPrev;
 		const paginationEl = slider.dataset.paginationEl;
+		const effect = slider.dataset.effect;
 		// const paginationStyle = slider.dataset.paginationStyle;
 
 		const swiper = new Swiper(sliderID, {
@@ -25,6 +26,7 @@ domReady(function () {
 					slidesPerView: slidesPerViewTablet,
 				},
 			},
+			effect: effect,
 			loop: loop,
 			autoplay: {
 				delay: autoPlay,

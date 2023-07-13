@@ -8,7 +8,12 @@
 	"icon": "smiley",
 	"description": "Example block scaffolded with Create Block tool.",
 	"supports": {
-		"html": false
+		"html": false,
+		"color": {
+			"text": true,
+			"background": true,
+			"link": true
+		}
 	},
 	"textdomain": "wds-slider",
 	"editorScript": "file:./index.js",
@@ -19,13 +24,21 @@
 		"blockId": {
 			"type": "string"
 		},
+		"sliderType": {
+			"type": "string",
+			"default": "images"
+		},
+		"slideshowOrCarousel": {
+			"type": "string",
+			"default": "carousel"
+		},
 		"slidesPerViewMobile": {
 			"type": "integer",
 			"default": 1
 		},
 		"slidesPerViewTablet": {
 			"type": "integer",
-			"default": 2
+			"default": 1
 		},
 		"images": {
 			"type": "array"
@@ -61,10 +74,6 @@
 		},
 		"navPrev": {
 			"type": "string"
-		},
-		"sliderType": {
-			"type": "string",
-			"default": "images"
 		},
 		"paginationStyle": {
 			"type": "string",

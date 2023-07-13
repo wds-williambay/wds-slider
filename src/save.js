@@ -33,6 +33,7 @@ export default function save(props) {
 				data-thumbs-swiper="thumbs-nav"
 				data-free-mode="true"
 				data-watch-slides-progress="true"
+				data-effect="fade"
 			>
 				{/* <InnerBlocks.Content /> */}
 				<div class="swiper-wrapper">
