@@ -6,9 +6,25 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-create-block-wds-slider {
-  padding-top: 100px;
-  border: 1px dotted #f00;
+.wp-block-create-block-wds-slider .swiper-pagination {
+  position: relative;
+  margin-top: 100px;
+}
+.wp-block-create-block-wds-slider .thumbs-nav .swiper-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.wp-block-create-block-wds-slider .thumbs-nav .swiper-wrapper .swiper-slide.square-thumbs {
+  aspect-ratio: 1;
+}
+.wp-block-create-block-wds-slider .thumbs-nav .swiper-wrapper .swiper-slide.rect-thumbs {
+  aspect-ratio: 3/2;
+}
+.wp-block-create-block-wds-slider .thumbs-nav .swiper-wrapper .swiper-slide img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 /*# sourceMappingURL=index.css.map*/

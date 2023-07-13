@@ -65,6 +65,14 @@
 		"sliderType": {
 			"type": "string",
 			"default": "images"
+		},
+		"paginationStyle": {
+			"type": "string",
+			"default": "bullets"
+		},
+		"thumbsFormat": {
+			"type": "string",
+			"default": "square-thumbs"
 		}
 	}
 }

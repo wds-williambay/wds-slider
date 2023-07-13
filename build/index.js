@@ -52,7 +52,9 @@ function Edit(props) {
     navigation,
     navNext,
     navPrev,
-    sliderType
+    sliderType,
+    paginationStyle,
+    thumbsFormat
   } = attributes;
 
   /**
@@ -76,7 +78,7 @@ function Edit(props) {
    *
    *
    */
-  const allowedBlocksPostSliderType = ["core/query"];
+  // const allowedBlocksPostSliderType = ["core/query"];
   // const allowedBlocksPostSliderType = ["create-block/books-list"];
   // TODO Create Block variations on Query Block. Create own pattern with Swiper classes/elements applied.
 
@@ -126,6 +128,11 @@ function Edit(props) {
       autoPlayDelay
     });
   };
+  const changePaginationStyle = paginationStyle => {
+    setAttributes({
+      paginationStyle
+    });
+  };
 
   /**
    *
@@ -151,7 +158,7 @@ function Edit(props) {
     }],
     onChange: sliderType => {
       {
-        setAttributes(sliderType), console.log(sliderType);
+        setAttributes(sliderType);
         // TODO add conditionals for the different slider types.
       }
     }
@@ -199,6 +206,35 @@ function Edit(props) {
     onChange: () => setAttributes({
       pagination: !pagination
     })
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: "Pagination Style",
+    value: paginationStyle,
+    options: [{
+      label: "Bullets",
+      value: "bullets"
+    }, {
+      label: "Numbers",
+      value: "numbers"
+    }, {
+      label: "Thumbnails",
+      value: "thumbnails"
+    }],
+    onChange: paginationStyle => changePaginationStyle(paginationStyle)
+  }), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: "Thumbnail Format",
+    value: thumbsFormat,
+    options: [{
+      label: "Square",
+      value: "square-thumbs"
+    }, {
+      label: "Rectangle",
+      value: "rect-thumbs"
+    }],
+    onChange: thumbsFormat => {
+      {
+        setAttributes(thumbsFormat);
+      }
+    }
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
     class: "swiper-container",
     "slides-per-view": slidesPerViewMobile,
@@ -207,7 +243,13 @@ function Edit(props) {
     navigation: navigation,
     pagination: pagination,
     "pagination-el": paginationEl,
-    "breakpoints-1024-slides-per-view": slidesPerViewTablet
+    "pagination-clickable": "true",
+    "breakpoints-1024-slides-per-view": slidesPerViewTablet,
+    "simulate-touch": "false" //Only FALSE for admin. This allows the user to select the block.
+    ,
+    "thumbs-swiper": ".thumbs-nav",
+    "free-mode": "true",
+    "watch-slides-progress": "true"
   }, images ? images.map(image => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: image.url
@@ -226,7 +268,14 @@ function Edit(props) {
     labels: {
       title: "Add Images"
     }
-  })));
+  })), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+    class: "thumbs-nav",
+    "slides-per-view": "10"
+  }, images ? images.map(image => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      src: image.url
+    }));
+  }) : ""));
 }
 
 /***/ }),
@@ -291,12 +340,14 @@ function save(props) {
     paginationEl,
     navigation,
     navNext,
-    navPrev
+    navPrev,
+    paginationStyle,
+    thumbsFormat
   } = attributes;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Wds Slider – hello from the saved content!"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "swiper",
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "swiper swiper-main",
     id: `slider-${blockId}`,
     "data-slides-per-view": slidesPerViewMobile,
     "data-slides-per-view-tablet": slidesPerViewTablet,
@@ -305,7 +356,10 @@ function save(props) {
     "data-nav-next": navNext,
     "data-nav-prev": navPrev,
     "data-pagination": pagination,
-    "data-pagination-el": paginationEl
+    "data-pagination-el": paginationEl,
+    "data-thumbs-swiper": "thumbs-nav",
+    "data-free-mode": "true",
+    "data-watch-slides-progress": "true"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-wrapper"
   }, images && images.map(image => {
@@ -318,9 +372,20 @@ function save(props) {
     class: "swiper-button-prev"
   }, "P"), navigation && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-button-next"
-  }, "N"), pagination && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-pagination"
-  })));
+  }, "N")), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    thumbsSlider: "",
+    class: "swiper thumbs-nav",
+    id: `thumbs-nav-${blockId}`,
+    "data-slides-per-view": "10"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "swiper-wrapper"
+  }, images && images.map(image => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: `swiper-slide ${thumbsFormat}`
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      src: image.url
+    }));
+  }))));
 }
 
 /***/ }),
@@ -10863,7 +10928,7 @@ if (typeof window !== 'undefined') {
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"sliderType":{"type":"string","default":"images"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":2},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"integer","default":3000},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"sliderType":{"type":"string","default":"images"},"paginationStyle":{"type":"string","default":"bullets"},"thumbsFormat":{"type":"string","default":"square-thumbs"}}}');
 
 /***/ })
 

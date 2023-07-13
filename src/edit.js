@@ -38,6 +38,8 @@ export default function Edit(props) {
 		navNext,
 		navPrev,
 		sliderType,
+		paginationStyle,
+		thumbsFormat,
 	} = attributes;
 
 	/**
@@ -61,7 +63,7 @@ export default function Edit(props) {
 	 *
 	 *
 	 */
-	const allowedBlocksPostSliderType = ["core/query"];
+	// const allowedBlocksPostSliderType = ["core/query"];
 	// const allowedBlocksPostSliderType = ["create-block/books-list"];
 	// TODO Create Block variations on Query Block. Create own pattern with Swiper classes/elements applied.
 
@@ -100,6 +102,10 @@ export default function Edit(props) {
 		setAttributes({ autoPlayDelay });
 	};
 
+	const changePaginationStyle = (paginationStyle) => {
+		setAttributes({ paginationStyle });
+	};
+
 	/**
 	 *
 	 *
@@ -121,7 +127,7 @@ export default function Edit(props) {
 						]}
 						onChange={(sliderType) => {
 							{
-								setAttributes(sliderType), console.log(sliderType);
+								setAttributes(sliderType);
 								// TODO add conditionals for the different slider types.
 							}
 						}}
@@ -177,6 +183,33 @@ export default function Edit(props) {
 						checked={pagination}
 						onChange={() => setAttributes({ pagination: !pagination })}
 					/>
+					<SelectControl
+						label="Pagination Style"
+						value={paginationStyle}
+						options={[
+							{ label: "Bullets", value: "bullets" },
+							{ label: "Numbers", value: "numbers" },
+							{ label: "Thumbnails", value: "thumbnails" },
+						]}
+						onChange={(paginationStyle) =>
+							changePaginationStyle(paginationStyle)
+						}
+					/>
+					{"thumbnails" === paginationStyle && (
+						<SelectControl
+							label="Thumbnail Format"
+							value={thumbsFormat}
+							options={[
+								{ label: "Square", value: "square-thumbs" },
+								{ label: "Rectangle", value: "rect-thumbs" },
+							]}
+							onChange={(thumbsFormat) => {
+								{
+									setAttributes(thumbsFormat);
+								}
+							}}
+						/>
+					)}
 				</PanelBody>
 			</InspectorControls>
 			<BlockControls></BlockControls>
@@ -188,7 +221,12 @@ export default function Edit(props) {
 				navigation={navigation}
 				pagination={pagination}
 				pagination-el={paginationEl}
+				pagination-clickable="true"
 				breakpoints-1024-slides-per-view={slidesPerViewTablet}
+				simulate-touch="false" //Only FALSE for admin. This allows the user to select the block.
+				thumbs-swiper=".thumbs-nav"
+				free-mode="true"
+				watch-slides-progress="true"
 			>
 				{images ? (
 					images.map((image) => {
@@ -211,6 +249,19 @@ export default function Edit(props) {
 				)}
 				{/* <InnerBlocks allowedBlocks={allowedBlocksPostSliderType} /> */}
 			</swiper-container>
+			{"thumbnails" === paginationStyle && (
+				<swiper-container class="thumbs-nav" slides-per-view="10">
+					{images
+						? images.map((image) => {
+								return (
+									<swiper-slide>
+										<img src={image.url} />
+									</swiper-slide>
+								);
+						  })
+						: ""}
+				</swiper-container>
+			)}
 		</div>
 	);
 }

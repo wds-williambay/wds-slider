@@ -91,8 +91,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__);
 
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
-  const sliders = Array.from(document.querySelectorAll(".swiper"));
-  sliders.map(slider => {
+  const sliderBlocks = Array.from(document.querySelectorAll(".wp-block-create-block-wds-slider"));
+  sliderBlocks.map(sliderBlock => {
+    const slider = sliderBlock.querySelector(".swiper-main");
     const sliderID = `#${slider.id}`;
     const slidesPerViewMobile = slider.dataset.slidesPerView;
     const slidesPerViewTablet = slider.dataset.slidesPerViewTablet;
@@ -101,6 +102,8 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     const navNext = slider.dataset.navNext;
     const navPrev = slider.dataset.navPrev;
     const paginationEl = slider.dataset.paginationEl;
+    // const paginationStyle = slider.dataset.paginationStyle;
+
     const swiper = new Swiper(sliderID, {
       // Optional parameters
       slidesPerView: slidesPerViewMobile,
@@ -122,9 +125,17 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(function () {
       pagination: {
         el: paginationEl,
         clickable: true
+      },
+      freeMode: true,
+      watchSlidesProgress: true
+    });
+    const thumbs = sliderBlock.querySelector(".thumbs-nav");
+    const thumbSlider = new Swiper(thumbs, {
+      slidesPerView: "10",
+      thumbs: {
+        swiper: swiper
       }
     });
-    console.log(swiper);
   });
 });
 })();
