@@ -43,6 +43,7 @@ function Edit(props) {
     blockId,
     images,
     sliderType,
+    effect,
     slideshowOrCarousel,
     slidesPerViewMobile,
     slidesPerViewTablet,
@@ -50,7 +51,6 @@ function Edit(props) {
     autoPlay,
     autoPlayDelay,
     transitionSpeed,
-    pagination,
     paginationEl,
     navigation,
     navNext,
@@ -115,6 +115,31 @@ function Edit(props) {
    *
    *
    */
+
+  /** General Options **/
+  const changeSlideshowOrCarousel = slideshowOrCarousel => {
+    setAttributes(slideshowOrCarousel);
+  };
+
+  /** Slideshow Options **/
+  const changeEffect = effect => {
+    setAttributes({
+      effect
+    });
+  };
+  const changePaginationStyle = paginationStyle => {
+    setAttributes({
+      paginationStyle
+    });
+  };
+
+  /** Carousel Options **/
+
+  const changeSliderType = sliderType => {
+    console.log({
+      sliderType
+    });
+  };
   const changeSlidesPerViewMobile = slidesPerViewMobile => {
     setAttributes({
       slidesPerViewMobile
@@ -124,14 +149,6 @@ function Edit(props) {
     setAttributes({
       slidesPerViewTablet
     });
-  };
-  const changePaginationStyle = paginationStyle => {
-    setAttributes({
-      paginationStyle
-    });
-  };
-  const changeSlideshowOrCarousel = slideshowOrCarousel => {
-    setAttributes(slideshowOrCarousel);
   };
   const changeAutoPlayDelay = autoPlayDelay => {
     setAttributes({
@@ -165,7 +182,55 @@ function Edit(props) {
       value: "carousel"
     }],
     onChange: slideshowOrCarousel => changeSlideshowOrCarousel(slideshowOrCarousel)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+    label: "Show Navigation Arrows",
+    checked: navigation,
+    onChange: () => setAttributes({
+      navigation: !navigation
+    })
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "Slideshow Options",
+    initialOpen: "false"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: "Transition Effect",
+    value: effect,
+    options: [{
+      label: "Slide",
+      value: "slide"
+    }, {
+      label: "Fade",
+      value: "fade"
+    }],
+    onChange: effect => changeEffect(effect)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: "Pagination Style",
+    value: paginationStyle,
+    options: [{
+      label: "Bullets",
+      value: "bullets"
+    }, {
+      label: "Numbers",
+      value: "numbers"
+    }, {
+      label: "Thumbnails",
+      value: "thumbnails"
+    }],
+    onChange: paginationStyle => changePaginationStyle(paginationStyle)
+  }), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
+    label: "Thumbnail Format",
+    value: thumbsFormat,
+    options: [{
+      label: "Square",
+      value: "square-thumbs"
+    }, {
+      label: "Rectangle",
+      value: "rect-thumbs"
+    }],
+    onChange: thumbsFormat => setAttributes(thumbsFormat)
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "Carousel Options",
+    initialOpen: "false"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
     label: "Slide Type",
     value: sliderType,
     help: "What do you want to display?",
@@ -181,9 +246,22 @@ function Edit(props) {
     }]
     // TODO add conditionals for the different slider types.
     ,
-    onChange: sliderType => setAttributes(sliderType)
+    onChange: sliderType => changeSliderType(sliderType)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    label: "Mobile Numbers",
+    value: slidesPerViewMobile,
+    onChange: slidesPerViewMobile => changeSlidesPerViewMobile(slidesPerViewMobile),
+    min: 1,
+    max: 6
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
+    label: "TabletNumbers",
+    value: slidesPerViewTablet,
+    onChange: slidesPerViewTablet => changeSlidesPerViewTablet(slidesPerViewTablet),
+    min: 1,
+    max: 6
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Timing Controls"
+    title: "Timing Controls",
+    initialOpen: "false"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: "Loop Continuously",
     checked: loop,
@@ -213,66 +291,17 @@ function Edit(props) {
     min: 0.1,
     max: 2.0,
     step: 0.1
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: "Needs A Home"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Mobile Numbers",
-    value: slidesPerViewMobile,
-    onChange: slidesPerViewMobile => changeSlidesPerViewMobile(slidesPerViewMobile),
-    min: 1,
-    max: 6
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "TabletNumbers",
-    value: slidesPerViewTablet,
-    onChange: slidesPerViewTablet => changeSlidesPerViewTablet(slidesPerViewTablet),
-    min: 1,
-    max: 6
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Show Navigation Arrows",
-    checked: navigation,
-    onChange: () => setAttributes({
-      navigation: !navigation
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: "Show Pagination",
-    checked: pagination,
-    onChange: () => setAttributes({
-      pagination: !pagination
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: "Pagination Style",
-    value: paginationStyle,
-    options: [{
-      label: "Bullets",
-      value: "bullets"
-    }, {
-      label: "Numbers",
-      value: "numbers"
-    }, {
-      label: "Thumbnails",
-      value: "thumbnails"
-    }],
-    onChange: paginationStyle => changePaginationStyle(paginationStyle)
-  }), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: "Thumbnail Format",
-    value: thumbsFormat,
-    options: [{
-      label: "Square",
-      value: "square-thumbs"
-    }, {
-      label: "Rectangle",
-      value: "rect-thumbs"
-    }],
-    onChange: thumbsFormat => setAttributes(thumbsFormat)
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    title: "Needs A Home",
+    initialOpen: "false"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
     class: "swiper-container",
     "slides-per-view": slidesPerViewMobile,
     "auto-play": autoPlayDelay * 1000,
     speed: transitionSpeed * 1000,
-    effect: "fade",
+    effect: effect,
     loop: loop,
     navigation: navigation,
-    pagination: pagination,
     "pagination-el": paginationEl,
     "pagination-clickable": "true",
     "breakpoints-1024-slides-per-view": slidesPerViewTablet,
@@ -363,13 +392,13 @@ function save(props) {
   const {
     blockId,
     images,
+    effect,
     slideshowOrCarousel,
     slidesPerViewMobile,
     slidesPerViewTablet,
     loop,
     autoPlayDelay,
     transitionSpeed,
-    pagination,
     paginationEl,
     navigation,
     navNext,
@@ -382,6 +411,7 @@ function save(props) {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "swiper swiper-main",
     id: `slider-${blockId}`,
+    "data-effect": effect,
     "data-slides-per-view": slidesPerViewMobile,
     "data-slides-per-view-tablet": slidesPerViewTablet,
     "data-swiper-autoplay": autoPlayDelay * 1000,
@@ -389,12 +419,10 @@ function save(props) {
     "data-loop": loop,
     "data-nav-next": navNext,
     "data-nav-prev": navPrev,
-    "data-pagination": pagination,
     "data-pagination-el": paginationEl,
     "data-thumbs-swiper": "thumbs-nav",
     "data-free-mode": "true",
-    "data-watch-slides-progress": "true",
-    "data-effect": "fade"
+    "data-watch-slides-progress": "true"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "swiper-wrapper"
   }, images && images.map(image => {
@@ -10963,7 +10991,7 @@ if (typeof window !== 'undefined') {
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false,"color":{"text":true,"background":true,"link":true}},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"sliderType":{"type":"string","default":"images"},"slideshowOrCarousel":{"type":"string","default":"carousel"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":1},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"number","default":"3"},"transitionSpeed":{"type":"number","default":".3"},"loop":{"type":"boolean","default":"true"},"pagination":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"paginationStyle":{"type":"string","default":"bullets"},"thumbsFormat":{"type":"string","default":"square-thumbs"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/wds-slider","version":"0.1.0","title":"Wds Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","supports":{"html":false,"color":{"text":true,"background":true,"link":true}},"textdomain":"wds-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./slider-init.js","attributes":{"blockId":{"type":"string"},"sliderType":{"type":"string"},"effect":{"type":"string"},"slideshowOrCarousel":{"type":"string"},"slidesPerViewMobile":{"type":"integer","default":1},"slidesPerViewTablet":{"type":"integer","default":1},"images":{"type":"array"},"imageIds":{"type":"array"},"autoPlay":{"type":"boolean","default":"true"},"autoPlayDelay":{"type":"number","default":"3"},"transitionSpeed":{"type":"number","default":".3"},"loop":{"type":"boolean","default":"true"},"paginationEl":{"type":"string"},"navigation":{"type":"boolean","default":"true"},"navNext":{"type":"string"},"navPrev":{"type":"string"},"paginationStyle":{"type":"string"},"thumbsFormat":{"type":"string"}}}');
 
 /***/ })
 

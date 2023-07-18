@@ -28,6 +28,7 @@ export default function Edit(props) {
 		blockId,
 		images,
 		sliderType,
+		effect,
 		slideshowOrCarousel,
 		slidesPerViewMobile,
 		slidesPerViewTablet,
@@ -35,7 +36,6 @@ export default function Edit(props) {
 		autoPlay,
 		autoPlayDelay,
 		transitionSpeed,
-		pagination,
 		paginationEl,
 		navigation,
 		navNext,
@@ -92,20 +92,33 @@ export default function Edit(props) {
 	 *
 	 *
 	 */
-	const changeSlidesPerViewMobile = (slidesPerViewMobile) => {
-		setAttributes({ slidesPerViewMobile });
+
+	/** General Options **/
+	const changeSlideshowOrCarousel = (slideshowOrCarousel) => {
+		setAttributes(slideshowOrCarousel);
 	};
 
-	const changeSlidesPerViewTablet = (slidesPerViewTablet) => {
-		setAttributes({ slidesPerViewTablet });
+	/** Slideshow Options **/
+	const changeEffect = (effect) => {
+		setAttributes({ effect });
 	};
 
 	const changePaginationStyle = (paginationStyle) => {
 		setAttributes({ paginationStyle });
 	};
 
-	const changeSlideshowOrCarousel = (slideshowOrCarousel) => {
-		setAttributes(slideshowOrCarousel);
+	/** Carousel Options **/
+
+	const changeSliderType = (sliderType) => {
+		console.log({ sliderType });
+	};
+
+	const changeSlidesPerViewMobile = (slidesPerViewMobile) => {
+		setAttributes({ slidesPerViewMobile });
+	};
+
+	const changeSlidesPerViewTablet = (slidesPerViewTablet) => {
+		setAttributes({ slidesPerViewTablet });
 	};
 
 	const changeAutoPlayDelay = (autoPlayDelay) => {
@@ -139,6 +152,54 @@ export default function Edit(props) {
 							changeSlideshowOrCarousel(slideshowOrCarousel)
 						}
 					/>
+					<ToggleControl
+						label="Show Navigation Arrows"
+						checked={navigation}
+						onChange={() => setAttributes({ navigation: !navigation })}
+					/>
+				</PanelBody>
+
+				{/* SLIDESHOW OPTIONS */}
+				{/* {"slideshow" === slideshowOrCarousel && ( */}
+				<PanelBody title="Slideshow Options" initialOpen="false">
+					<SelectControl
+						label="Transition Effect"
+						value={effect}
+						options={[
+							{ label: "Slide", value: "slide" },
+							{ label: "Fade", value: "fade" },
+						]}
+						onChange={(effect) => changeEffect(effect)}
+					/>
+					<SelectControl
+						label="Pagination Style"
+						value={paginationStyle}
+						options={[
+							{ label: "Bullets", value: "bullets" },
+							{ label: "Numbers", value: "numbers" },
+							{ label: "Thumbnails", value: "thumbnails" },
+						]}
+						onChange={(paginationStyle) =>
+							changePaginationStyle(paginationStyle)
+						}
+					/>
+					{"thumbnails" === paginationStyle && (
+						<SelectControl
+							label="Thumbnail Format"
+							value={thumbsFormat}
+							options={[
+								{ label: "Square", value: "square-thumbs" },
+								{ label: "Rectangle", value: "rect-thumbs" },
+							]}
+							onChange={(thumbsFormat) => setAttributes(thumbsFormat)}
+						/>
+					)}
+				</PanelBody>
+				{/* )} */}
+
+				{/* Carousel Options */}
+				{/* {"carousel" === slideshowOrCarousel && ( */}
+				<PanelBody title="Carousel Options" initialOpen="false">
 					<SelectControl
 						label="Slide Type"
 						value={sliderType}
@@ -149,11 +210,30 @@ export default function Edit(props) {
 							{ label: "Posts", value: "posts" },
 						]}
 						// TODO add conditionals for the different slider types.
-						onChange={(sliderType) => setAttributes(sliderType)}
+						onChange={(sliderType) => changeSliderType(sliderType)}
+					/>
+					<RangeControl
+						label="Mobile Numbers"
+						value={slidesPerViewMobile}
+						onChange={(slidesPerViewMobile) =>
+							changeSlidesPerViewMobile(slidesPerViewMobile)
+						}
+						min={1}
+						max={6}
+					/>
+					<RangeControl
+						label="TabletNumbers"
+						value={slidesPerViewTablet}
+						onChange={(slidesPerViewTablet) =>
+							changeSlidesPerViewTablet(slidesPerViewTablet)
+						}
+						min={1}
+						max={6}
 					/>
 				</PanelBody>
+				{/* )} */}
 
-				<PanelBody title={"Timing Controls"}>
+				<PanelBody title="Timing Controls" initialOpen="false">
 					<ToggleControl
 						label="Loop Continuously"
 						checked={loop}
@@ -189,61 +269,8 @@ export default function Edit(props) {
 							step={0.1}
 						/>
 					)}
-
-					<PanelBody title={"Needs A Home"}>
-						<RangeControl
-							label="Mobile Numbers"
-							value={slidesPerViewMobile}
-							onChange={(slidesPerViewMobile) =>
-								changeSlidesPerViewMobile(slidesPerViewMobile)
-							}
-							min={1}
-							max={6}
-						/>
-						<RangeControl
-							label="TabletNumbers"
-							value={slidesPerViewTablet}
-							onChange={(slidesPerViewTablet) =>
-								changeSlidesPerViewTablet(slidesPerViewTablet)
-							}
-							min={1}
-							max={6}
-						/>
-						<ToggleControl
-							label="Show Navigation Arrows"
-							checked={navigation}
-							onChange={() => setAttributes({ navigation: !navigation })}
-						/>
-						<ToggleControl
-							label="Show Pagination"
-							checked={pagination}
-							onChange={() => setAttributes({ pagination: !pagination })}
-						/>
-						<SelectControl
-							label="Pagination Style"
-							value={paginationStyle}
-							options={[
-								{ label: "Bullets", value: "bullets" },
-								{ label: "Numbers", value: "numbers" },
-								{ label: "Thumbnails", value: "thumbnails" },
-							]}
-							onChange={(paginationStyle) =>
-								changePaginationStyle(paginationStyle)
-							}
-						/>
-						{"thumbnails" === paginationStyle && (
-							<SelectControl
-								label="Thumbnail Format"
-								value={thumbsFormat}
-								options={[
-									{ label: "Square", value: "square-thumbs" },
-									{ label: "Rectangle", value: "rect-thumbs" },
-								]}
-								onChange={(thumbsFormat) => setAttributes(thumbsFormat)}
-							/>
-						)}
-					</PanelBody>
 				</PanelBody>
+				<PanelBody title="Needs A Home" initialOpen="false"></PanelBody>
 			</InspectorControls>
 			<BlockControls></BlockControls>
 			<swiper-container
@@ -251,10 +278,9 @@ export default function Edit(props) {
 				slides-per-view={slidesPerViewMobile}
 				auto-play={autoPlayDelay * 1000}
 				speed={transitionSpeed * 1000}
-				effect="fade"
+				effect={effect}
 				loop={loop}
 				navigation={navigation}
-				pagination={pagination}
 				pagination-el={paginationEl}
 				pagination-clickable="true"
 				breakpoints-1024-slides-per-view={slidesPerViewTablet}

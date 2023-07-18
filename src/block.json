@@ -25,12 +25,13 @@
 			"type": "string"
 		},
 		"sliderType": {
-			"type": "string",
-			"default": "images"
+			"type": "string"
+		},
+		"effect": {
+			"type": "string"
 		},
 		"slideshowOrCarousel": {
-			"type": "string",
-			"default": "carousel"
+			"type": "string"
 		},
 		"slidesPerViewMobile": {
 			"type": "integer",
@@ -62,10 +63,6 @@
 			"type": "boolean",
 			"default": "true"
 		},
-		"pagination": {
-			"type": "boolean",
-			"default": "true"
-		},
 		"paginationEl": {
 			"type": "string"
 		},
@@ -80,12 +77,10 @@
 			"type": "string"
 		},
 		"paginationStyle": {
-			"type": "string",
-			"default": "bullets"
+			"type": "string"
 		},
 		"thumbsFormat": {
-			"type": "string",
-			"default": "square-thumbs"
+			"type": "string"
 		}
 	}
 }

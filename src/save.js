@@ -5,13 +5,13 @@ export default function save(props) {
 	const {
 		blockId,
 		images,
+		effect,
 		slideshowOrCarousel,
 		slidesPerViewMobile,
 		slidesPerViewTablet,
 		loop,
 		autoPlayDelay,
 		transitionSpeed,
-		pagination,
 		paginationEl,
 		navigation,
 		navNext,
@@ -24,6 +24,7 @@ export default function save(props) {
 			<div
 				className="swiper swiper-main"
 				id={`slider-${blockId}`}
+				data-effect={effect}
 				data-slides-per-view={slidesPerViewMobile}
 				data-slides-per-view-tablet={slidesPerViewTablet}
 				data-swiper-autoplay={autoPlayDelay * 1000}
@@ -31,12 +32,10 @@ export default function save(props) {
 				data-loop={loop}
 				data-nav-next={navNext}
 				data-nav-prev={navPrev}
-				data-pagination={pagination}
 				data-pagination-el={paginationEl}
 				data-thumbs-swiper="thumbs-nav"
 				data-free-mode="true"
 				data-watch-slides-progress="true"
-				data-effect="fade"
 			>
 				{/* <InnerBlocks.Content /> */}
 				<div class="swiper-wrapper">

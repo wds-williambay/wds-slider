@@ -8,6 +8,7 @@ domReady(function () {
 	sliderBlocks.map((sliderBlock) => {
 		const slider = sliderBlock.querySelector(".swiper-main");
 		const sliderID = `#${slider.id}`;
+		const effect = slider.dataset.effect;
 		const slidesPerViewMobile = slider.dataset.slidesPerView;
 		const slidesPerViewTablet = slider.dataset.slidesPerViewTablet;
 		const loop = slider.dataset.loop;
@@ -16,7 +17,6 @@ domReady(function () {
 		const navNext = slider.dataset.navNext;
 		const navPrev = slider.dataset.navPrev;
 		const paginationEl = slider.dataset.paginationEl;
-		const effect = slider.dataset.effect;
 		// const paginationStyle = slider.dataset.paginationStyle;
 
 		const swiper = new Swiper(sliderID, {
