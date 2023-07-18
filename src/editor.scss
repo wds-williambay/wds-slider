@@ -5,28 +5,33 @@
  */
 
 .wp-block-create-block-wds-slider {
-	.swiper-pagination {
-		position: relative;
-		margin-top: 100px;
-	}
+	// 	.swiper-pagination {
+	// 		position: relative;
+	// 		margin-top: 100px;
+	// 	}
 
-	.thumbs-nav {
-		.swiper-wrapper {
-			display: flex;
-			justify-content: center;
-			.swiper-slide {
-				&.square-thumbs {
-					aspect-ratio: 1;
-				}
-				&.rect-thumbs {
-					aspect-ratio: 3/2;
-				}
-				img {
-					object-fit: cover;
-					width: 100%;
-					height: 100%;
-				}
-			}
-		}
+	// .thumbs-nav {
+	// 	display: flex;
+	// 	justify-content: center;
+	// 	.swiper-slide {
+	// 		&.square-thumbs {
+	// 			aspect-ratio: 1;
+	// 		}
+	// 		&.rect-thumbs {
+	// 			aspect-ratio: 3/2;
+	// 		}
+	// 		img {
+	// 			object-fit: cover;
+	// 			width: 100%;
+	// 			height: 100%;
+	// 		}
+	// 	}
+	// }
+
+	// .swiper-thumbs {
+	.swiper-wrapper {
+		display: flex;
+		justify-content: center;
 	}
+	// }
 }

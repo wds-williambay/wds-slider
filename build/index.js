@@ -122,8 +122,9 @@ function Edit(props) {
   };
   const changeNavigation = navigation => {
     setAttributes({
-      navigation: navigation
+      navigation
     });
+    console.log(navigation, navNext, navPrev, blockId);
   };
 
   /** Slideshow Options **/
@@ -299,14 +300,14 @@ function Edit(props) {
     initialOpen: "false"
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
     class: "swiper-container",
-    "slides-per-view": slidesPerViewMobile,
-    "auto-play": autoPlayDelay * 1000,
-    speed: transitionSpeed * 1000,
-    effect: effect,
-    loop: loop,
     navigation: navigation,
     "pagination-el": paginationEl,
     "pagination-clickable": "true",
+    effect: effect,
+    "slides-per-view": slidesPerViewMobile,
+    "auto-play": autoPlayDelay * 1000,
+    speed: transitionSpeed * 1000,
+    loop: loop,
     "breakpoints-1024-slides-per-view": slidesPerViewTablet,
     "simulate-touch": "false" //Only FALSE for admin. This allows the user to select the block.
     ,
@@ -333,7 +334,8 @@ function Edit(props) {
     }
   })), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
     class: "thumbs-nav",
-    "slides-per-view": "10"
+    "slides-per-view": "10",
+    style: "display:flex; justify-content:center;"
   }, images ? images.map(image => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: image.url
@@ -411,47 +413,27 @@ function save(props) {
   } = attributes;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "swiper swiper-main",
-    id: `slider-${blockId}`,
-    "data-effect": effect,
-    "data-slides-per-view": slidesPerViewMobile,
-    "data-slides-per-view-tablet": slidesPerViewTablet,
-    "data-swiper-autoplay": autoPlayDelay * 1000,
-    "data-transition-speed": transitionSpeed * 1000,
-    "data-loop": loop,
-    "data-nav-next": navNext,
-    "data-nav-prev": navPrev,
-    "data-pagination-el": paginationEl,
-    "data-thumbs-swiper": "thumbs-nav",
-    "data-free-mode": "true",
-    "data-watch-slides-progress": "true"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-wrapper"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-container", {
+    class: "swiper-container",
+    navigation: navigation,
+    "pagination-el": paginationEl,
+    "pagination-clickable": "true",
+    effect: effect,
+    "slides-per-view": slidesPerViewMobile,
+    "breakpoints-1024-slides-per-view": slidesPerViewTablet,
+    "auto-play": autoPlayDelay * 1000,
+    speed: transitionSpeed * 1000,
+    loop: loop,
+    "simulate-touch": "true" //Only FALSE for admin. This allows the user to select the block.
+    ,
+    "thumbs-swiper": ".thumbs-nav",
+    "free-mode": "true",
+    "watch-slides-progress": "true"
   }, images && images.map(image => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "swiper-slide"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("swiper-slide", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: image.url
     }));
-  })), navigation && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-button-prev"
-  }, "P"), navigation && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-button-next"
-  }, "N")), "thumbnails" === paginationStyle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    thumbsSlider: "",
-    class: "swiper thumbs-nav",
-    id: `thumbs-nav-${blockId}`,
-    "data-slides-per-view": "10"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "swiper-wrapper"
-  }, images && images.map(image => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: `swiper-slide ${thumbsFormat}`
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-      src: image.url
-    }));
-  }))));
+  })));
 }
 
 /***/ }),

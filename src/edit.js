@@ -99,7 +99,8 @@ export default function Edit(props) {
 	};
 
 	const changeNavigation = (navigation) => {
-		setAttributes({ navigation: navigation });
+		setAttributes({ navigation });
+		console.log(navigation, navNext, navPrev, blockId);
 	};
 
 	/** Slideshow Options **/
@@ -199,7 +200,6 @@ export default function Edit(props) {
 						/>
 					)}
 				</PanelBody>
-				{/* )} */}
 
 				{/* Carousel Options */}
 				{/* {"carousel" === slideshowOrCarousel && ( */}
@@ -235,7 +235,6 @@ export default function Edit(props) {
 						max={6}
 					/>
 				</PanelBody>
-				{/* )} */}
 
 				<PanelBody title="Timing Controls" initialOpen="false">
 					<ToggleControl
@@ -279,14 +278,14 @@ export default function Edit(props) {
 			<BlockControls></BlockControls>
 			<swiper-container
 				class="swiper-container"
-				slides-per-view={slidesPerViewMobile}
-				auto-play={autoPlayDelay * 1000}
-				speed={transitionSpeed * 1000}
-				effect={effect}
-				loop={loop}
 				navigation={navigation}
 				pagination-el={paginationEl}
 				pagination-clickable="true"
+				effect={effect}
+				slides-per-view={slidesPerViewMobile}
+				auto-play={autoPlayDelay * 1000}
+				speed={transitionSpeed * 1000}
+				loop={loop}
 				breakpoints-1024-slides-per-view={slidesPerViewTablet}
 				simulate-touch="false" //Only FALSE for admin. This allows the user to select the block.
 				thumbs-swiper=".thumbs-nav"
@@ -315,7 +314,11 @@ export default function Edit(props) {
 				{/* <InnerBlocks allowedBlocks={allowedBlocksPostSliderType} /> */}
 			</swiper-container>
 			{"thumbnails" === paginationStyle && (
-				<swiper-container class="thumbs-nav" slides-per-view="10">
+				<swiper-container
+					class="thumbs-nav"
+					slides-per-view="10"
+					style="display:flex; justify-content:center;"
+				>
 					{images
 						? images.map((image) => {
 								return (

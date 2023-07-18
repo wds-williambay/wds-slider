@@ -21,7 +21,32 @@ export default function save(props) {
 	} = attributes;
 	return (
 		<div {...useBlockProps.save()}>
-			<div
+			<swiper-container
+				class="swiper-container"
+				navigation={navigation}
+				pagination-el={paginationEl}
+				pagination-clickable="true"
+				effect={effect}
+				slides-per-view={slidesPerViewMobile}
+				breakpoints-1024-slides-per-view={slidesPerViewTablet}
+				auto-play={autoPlayDelay * 1000}
+				speed={transitionSpeed * 1000}
+				loop={loop}
+				simulate-touch="true" //Only FALSE for admin. This allows the user to select the block.
+				thumbs-swiper=".thumbs-nav"
+				free-mode="true"
+				watch-slides-progress="true"
+			>
+				{images &&
+					images.map((image) => {
+						return (
+							<swiper-slide>
+								<img src={image.url} />
+							</swiper-slide>
+						);
+					})}
+			</swiper-container>
+			{/* <div
 				className="swiper swiper-main"
 				id={`slider-${blockId}`}
 				data-effect={effect}
@@ -36,9 +61,9 @@ export default function save(props) {
 				data-thumbs-swiper="thumbs-nav"
 				data-free-mode="true"
 				data-watch-slides-progress="true"
-			>
-				{/* <InnerBlocks.Content /> */}
-				<div class="swiper-wrapper">
+			> */}
+			{/* <InnerBlocks.Content /> */}
+			{/* <div class="swiper-wrapper">
 					{images &&
 						images.map((image) => {
 							return (
@@ -47,13 +72,13 @@ export default function save(props) {
 								</div>
 							);
 						})}
-				</div>
-				{navigation && <div class="swiper-button-prev">P</div>}
-				{navigation && <div class="swiper-button-next">N</div>}
-				{/* {pagination && <div class="swiper-pagination"></div>} */}
-			</div>
+				</div> */}
+			{/* {navigation && <div class="swiper-button-prev">P</div>}
+				{navigation && <div class="swiper-button-next">N</div>} */}
+			{/* {pagination && <div class="swiper-pagination"></div>} */}
+			{/* </div> */}
 
-			{"thumbnails" === paginationStyle && (
+			{/* {"thumbnails" === paginationStyle && (
 				<div
 					thumbsSlider=""
 					class="swiper thumbs-nav"
@@ -71,7 +96,7 @@ export default function save(props) {
 							})}
 					</div>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 }
