@@ -98,6 +98,10 @@ export default function Edit(props) {
 		setAttributes(slideshowOrCarousel);
 	};
 
+	const changeNavigation = (navigation) => {
+		setAttributes({ navigation: navigation });
+	};
+
 	/** Slideshow Options **/
 	const changeEffect = (effect) => {
 		setAttributes({ effect });
@@ -155,7 +159,7 @@ export default function Edit(props) {
 					<ToggleControl
 						label="Show Navigation Arrows"
 						checked={navigation}
-						onChange={() => setAttributes({ navigation: !navigation })}
+						onChange={(navigation) => changeNavigation(navigation)}
 					/>
 				</PanelBody>
 
@@ -213,7 +217,7 @@ export default function Edit(props) {
 						onChange={(sliderType) => changeSliderType(sliderType)}
 					/>
 					<RangeControl
-						label="Mobile Numbers"
+						label="Slides Per View - Mobile"
 						value={slidesPerViewMobile}
 						onChange={(slidesPerViewMobile) =>
 							changeSlidesPerViewMobile(slidesPerViewMobile)
@@ -222,7 +226,7 @@ export default function Edit(props) {
 						max={6}
 					/>
 					<RangeControl
-						label="TabletNumbers"
+						label="Slides Per View - Desktop & Tablet"
 						value={slidesPerViewTablet}
 						onChange={(slidesPerViewTablet) =>
 							changeSlidesPerViewTablet(slidesPerViewTablet)

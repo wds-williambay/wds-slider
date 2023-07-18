@@ -120,6 +120,11 @@ function Edit(props) {
   const changeSlideshowOrCarousel = slideshowOrCarousel => {
     setAttributes(slideshowOrCarousel);
   };
+  const changeNavigation = navigation => {
+    setAttributes({
+      navigation: navigation
+    });
+  };
 
   /** Slideshow Options **/
   const changeEffect = effect => {
@@ -185,9 +190,7 @@ function Edit(props) {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
     label: "Show Navigation Arrows",
     checked: navigation,
-    onChange: () => setAttributes({
-      navigation: !navigation
-    })
+    onChange: navigation => changeNavigation(navigation)
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: "Slideshow Options",
     initialOpen: "false"
@@ -248,13 +251,13 @@ function Edit(props) {
     ,
     onChange: sliderType => changeSliderType(sliderType)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Mobile Numbers",
+    label: "Slides Per View - Mobile",
     value: slidesPerViewMobile,
     onChange: slidesPerViewMobile => changeSlidesPerViewMobile(slidesPerViewMobile),
     min: 1,
     max: 6
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "TabletNumbers",
+    label: "Slides Per View - Desktop & Tablet",
     value: slidesPerViewTablet,
     onChange: slidesPerViewTablet => changeSlidesPerViewTablet(slidesPerViewTablet),
     min: 1,
